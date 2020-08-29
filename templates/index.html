@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Gastos
+{% endblock %}
+
+{% block body %}
+    <h2>Gastos recientes</h2>
+
+    <br>
+
+    <nav class="nav nav-pills">
+        <a href="{{ url_for('new') }}" class="nav-link active">Nuevo gasto</a>
+        <a href="{{ url_for('download') }}" class="nav-link">Descargar</a>
+    </nav>
+
+    <br>
+    <br>
+    
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    {% for field in expenses_data.header %}
+                        <th scope="col">{{ field }}</th>
+                    {% endfor %}
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in expenses_data.data %}
+                    <tr>
+                        {% for value in row.data %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                        <td><a href="{{ url_for('edit', id=row.id) }}" class="badge badge-secondary">Editar</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

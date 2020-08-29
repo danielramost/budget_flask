@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Presupuesto
+{% endblock %}
+
+{% block body %}
+    <h2>{{ header }} gasto</h2>
+
+    <form action="" method="POST">
+        <div class="form-group">
+            <label for="date">Fecha</label>
+            <br>
+            <input type="date" id="date" name="date" class="form-control" value="{{ expense.date }}" required>
+        </div>
+        <div>
+            <label for="user">Responsable</label>
+            <br>
+            <select id="user" name="user" class="form-control">
+                {% for user in users %}
+                    {% if expense and expense.user == user %}
+                        <option value="{{ user }}" selected>{{ user }}</option>
+                    {% else %}
+                        <option value="{{ user }}">{{ user }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="value">Valor</label>
+            <br>
+            {% if expense %}
+                <input type="number" id="value" name="value" class="form-control" value="{{ expense.value }}">
+            {% else %}
+                <input type="number" id="value" name="value" class="form-control">
+            {% endif %}
+        </div>
+        <div>
+            <label for="category">Categoría</label>
+            <br>
+            {% if expense %}
+                <input id="category" name="category" list="categories" class="form-control" value="{{ expense.category }}">
+            {% else %}
+                <input id="category" name="category" list="categories" class="form-control">
+            {% endif %}
+            <datalist id="categories">
+                {% for category in categories %}
+                    <option value="{{ category.group + ' ==> ' + category.category }}">
+                {% endfor %}
+            </datalist>
+        </div>
+        <div>
+            <label for="comment">Observaciones</label>
+            <br>
+            <textarea id="comment" name="comment" rows="3" class="form-control">{% if expense %}{{ expense.comment }}{% endif %}</textarea>
+        </div>
+        <br>
+        <button class="btn btn-primary">Guardar</button>
+    </form>
+{% endblock %}
