@@ -140,7 +140,6 @@ class Expense():
             deleted = 0
 
             for doc in docs:
-                print(f'Deleting doc {doc.id} => {doc.to_dict()}')
                 doc.reference.delete()
                 deleted = deleted + 1
 

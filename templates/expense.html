@@ -5,51 +5,55 @@
 {% endblock %}
 
 {% block body %}
-    <h2>{{ header }} gasto</h2>
+    <div class="row justify-content-center">
 
-    <form action="" method="POST">
-        <div class="form-group">
-            <label for="date">Fecha</label>
-            <input type="date" id="date" name="date" value="{{ expense.date }}" required class="form-control">
-        </div>
-        <div class="form-group">
-            Responsable
-            {% for user in users %}
-                <div class="form-check">
-                    {% if expense and expense.user == user %}
-                        <input type="radio" id="user_{{ user }}" name="user" value="{{ user }}" required checked class="form-check-input">
-                    {% else %}
-                        <input type="radio" id="user_{{ user }}" name="user" value="{{ user }}" required class="form-check-input">
-                    {% endif %}
-                    <label for="user_{{ user }}">{{ user }}</label>
+        <form action="" method="POST" class="col-sm-8 col-md-6 col-lg-4">
+            <fieldset>
+                <legend>{{ header }} gasto</legend>
+                <div class="form-group">
+                    <label for="date">Fecha</label>
+                    <input type="date" id="date" name="date" value="{{ expense.date }}" required class="form-control">
                 </div>
-            {% endfor %}
-        </div>
-        <div class="form-group">
-            <label for="value">Valor</label>
-            {% if expense %}
-                <input type="number" id="value" name="value" value="{{ expense.value }}" step="1" required class="form-control">
-            {% else %}
-                <input type="number" id="value" name="value" required class="form-control">
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="category">Categoría</label>
-            {% if expense.id != None %}
-                <input id="category" name="category" list="categories" value="{{ expense.group + ' ==> ' + expense.category }}" autocomplete="off" required class="form-control">
-            {% else %}
-                <input id="category" name="category" list="categories" autocomplete="off" required class="form-control">
-            {% endif %}
-            <datalist id="categories">
-                {% for category in categories %}
-                    <option value="{{ category.group + ' ==> ' + category.category }}">
-                {% endfor %}
-            </datalist>
-        </div>
-        <div class="form-group">
-            <label for="comment">Observaciones</label>
-            <textarea id="comment" name="comment" rows="3" class="form-control">{% if expense %}{{ expense.comment }}{% endif %}</textarea>
-        </div>
-        <button class="btn btn-primary">Guardar</button>
-    </form>
+                <div class="form-group">
+                    Responsable
+                    {% for user in users %}
+                        <div class="form-check">
+                            {% if expense and expense.user == user %}
+                                <input type="radio" id="user_{{ user }}" name="user" value="{{ user }}" required checked class="form-check-input">
+                            {% else %}
+                                <input type="radio" id="user_{{ user }}" name="user" value="{{ user }}" required class="form-check-input">
+                            {% endif %}
+                            <label for="user_{{ user }}">{{ user }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="value">Valor</label>
+                    {% if expense %}
+                        <input type="number" id="value" name="value" value="{{ expense.value }}" step="1" required class="form-control">
+                    {% else %}
+                        <input type="number" id="value" name="value" required class="form-control">
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="category">Categoría</label>
+                    {% if expense.id != None %}
+                        <input id="category" name="category" list="categories" value="{{ expense.group + ' ==> ' + expense.category }}" autocomplete="off" required class="form-control">
+                    {% else %}
+                        <input id="category" name="category" list="categories" autocomplete="off" required class="form-control">
+                    {% endif %}
+                    <datalist id="categories">
+                        {% for category in categories %}
+                            <option value="{{ category.group + ' ==> ' + category.category }}">
+                        {% endfor %}
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label for="comment">Observaciones</label>
+                    <textarea id="comment" name="comment" rows="3" class="form-control">{% if expense %}{{ expense.comment }}{% endif %}</textarea>
+                </div>
+                <input type="submit" value="Guardar" class="btn btn-primary">
+            </fieldset>
+        </form>
+    </div>
 {% endblock %}
