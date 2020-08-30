@@ -29,10 +29,10 @@ class Expense():
         self.comment = "" if data is None else data['comment']
 
     def create_expense(self):
-        col_ref = db.collection(self.collection_name)
+        coll_ref = db.collection(self.collection_name)
         data = self.to_dict()
         data['timestamp'] = firestore.SERVER_TIMESTAMP
-        col_ref.add(data)
+        coll_ref.add(data)
 
     def update_expense(self):
         doc_ref = db.collection(self.collection_name).document(self.id)
@@ -65,10 +65,10 @@ class Expense():
 
     @classmethod
     def get_expenses_for_table(cls):
-        col_ref = db.collection(cls.collection_name)\
+        coll_ref = db.collection(cls.collection_name)\
             .order_by('date', direction=firestore.Query.DESCENDING)\
             .order_by('timestamp', direction=firestore.Query.DESCENDING)
-        docs = col_ref.stream()
+        docs = coll_ref.stream()
 
         fields = [
             {'field': 'date', 'label': 'Fecha'},
@@ -98,10 +98,10 @@ class Expense():
 
     @classmethod
     def get_expenses_for_download(cls):
-        col_ref = db.collection(cls.collection_name)\
+        coll_ref = db.collection(cls.collection_name)\
             .order_by('date')\
             .order_by('timestamp')
-        docs = col_ref.stream()
+        docs = coll_ref.stream()
 
         fields = [
             'date',
@@ -127,6 +127,25 @@ class Expense():
             expenses.append(printable_expense)
 
         return expenses
+    
+    @classmethod
+    def delete_all(cls):
+        coll_ref = db.collection(cls.collection_name)
+        batch_size = 10
+        
+        def delete_collection(coll_ref, batch_size):
+            docs = coll_ref.limit(batch_size).stream()
+            deleted = 0
+
+            for doc in docs:
+                print(f'Deleting doc {doc.id} => {doc.to_dict()}')
+                doc.reference.delete()
+                deleted = deleted + 1
+
+            if deleted >= batch_size:
+                return delete_collection(coll_ref, batch_size)
+        
+        return delete_collection(coll_ref, batch_size)
 
 class User:
 
@@ -143,15 +162,13 @@ class User:
 
     @classmethod
     def all(cls):
-        print(' ===> inicio user <=== ')
-        col_ref = db.collection(cls.collection_name).order_by('name')
-        docs = col_ref.stream()
+        coll_ref = db.collection(cls.collection_name).order_by('name')
+        docs = coll_ref.stream()
 
         users = []
         for doc in docs:
             doc_dict = doc.to_dict()
             users.append(doc_dict['name'])
-        print(' ===> final user <=== ')
         return users
 
 class Category:
@@ -165,10 +182,10 @@ class Category:
         self.type = type
     
     def create(self):
-        col_ref = db.collection(self.collection_name)
+        coll_ref = db.collection(self.collection_name)
         data = self.to_dict()
         data['timestamp'] = firestore.SERVER_TIMESTAMP
-        col_ref.add(data)
+        coll_ref.add(data)
 
     def update(self):
         doc_ref = db.collection(self.collection_name).document(self.id)
@@ -192,10 +209,9 @@ class Category:
     
     @classmethod
     def all(cls):
-        print(' ===> inicio cat <=== ')
-        col_ref = db.collection(cls.collection_name).where('type', '==', 'Egreso')\
+        coll_ref = db.collection(cls.collection_name).where('type', '==', 'Egreso')\
             .order_by('group').order_by('category')
-        docs = col_ref.stream()
+        docs = coll_ref.stream()
 
         result = []
         for doc in docs:
@@ -207,7 +223,6 @@ class Category:
                 type=cat_item['type']
             )
             result.append(cat)
-        print(' ===> final cat <=== ')
         return result
     
     @classmethod

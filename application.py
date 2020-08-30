@@ -17,8 +17,6 @@ def index():
     users = User.all()
     global categories
     categories = Category.all()
-    
-    print(' ===> voy a pintar <=== ')
 
     return render_template('index.html', expenses_data = expenses)
 
@@ -44,7 +42,6 @@ def edit(id):
         return redirect(url_for('index'))
     else:
         expense = Expense.get_expense(id)
-        print(expense)
         return render_template('expense.html',
             header='Modificar', users=users, categories=categories,
             expense=expense
@@ -75,3 +72,11 @@ def download():
     output.headers["Content-Disposition"] = "attachment; filename=gastos.csv"
     output.headers["Content-type"] = "text/csv"
     return output
+
+@app.route('/delete_all', methods=['GET','POST'])
+def delete_all():
+    if request.method == 'POST':
+        Expense.delete_all()
+        return redirect(url_for('index'))
+    else:
+        return render_template('delete_all.html')

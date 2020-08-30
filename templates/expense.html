@@ -10,38 +10,35 @@
     <form action="" method="POST">
         <div class="form-group">
             <label for="date">Fecha</label>
-            <br>
-            <input type="date" id="date" name="date" class="form-control" value="{{ expense.date }}" required>
+            <input type="date" id="date" name="date" value="{{ expense.date }}" required class="form-control">
         </div>
-        <div>
-            <label for="user">Responsable</label>
-            <br>
-            <select id="user" name="user" class="form-control">
-                {% for user in users %}
+        <div class="form-group">
+            Responsable
+            {% for user in users %}
+                <div class="form-check">
                     {% if expense and expense.user == user %}
-                        <option value="{{ user }}" selected>{{ user }}</option>
+                        <input type="radio" id="user_{{ user }}" name="user" value="{{ user }}" required checked class="form-check-input">
                     {% else %}
-                        <option value="{{ user }}">{{ user }}</option>
+                        <input type="radio" id="user_{{ user }}" name="user" value="{{ user }}" required class="form-check-input">
                     {% endif %}
-                {% endfor %}
-            </select>
+                    <label for="user_{{ user }}">{{ user }}</label>
+                </div>
+            {% endfor %}
         </div>
-        <div>
+        <div class="form-group">
             <label for="value">Valor</label>
-            <br>
             {% if expense %}
-                <input type="number" id="value" name="value" class="form-control" value="{{ expense.value }}">
+                <input type="number" id="value" name="value" value="{{ expense.value }}" required class="form-control">
             {% else %}
-                <input type="number" id="value" name="value" class="form-control">
+                <input type="number" id="value" name="value" required class="form-control">
             {% endif %}
         </div>
-        <div>
+        <div class="form-group">
             <label for="category">Categoría</label>
-            <br>
             {% if expense %}
-                <input id="category" name="category" list="categories" class="form-control" value="{{ expense.category }}">
+                <input id="category" name="category" list="categories" value="{{ expense.category }}" autocomplete="off" required class="form-control">
             {% else %}
-                <input id="category" name="category" list="categories" class="form-control">
+                <input id="category" name="category" list="categories" autocomplete="off" required class="form-control">
             {% endif %}
             <datalist id="categories">
                 {% for category in categories %}
@@ -49,12 +46,10 @@
                 {% endfor %}
             </datalist>
         </div>
-        <div>
+        <div class="form-group">
             <label for="comment">Observaciones</label>
-            <br>
             <textarea id="comment" name="comment" rows="3" class="form-control">{% if expense %}{{ expense.comment }}{% endif %}</textarea>
         </div>
-        <br>
         <button class="btn btn-primary">Guardar</button>
     </form>
 {% endblock %}
