@@ -3,6 +3,7 @@ import json
 import locale
 import os
 
+from budget import app
 from datetime import datetime, date
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -10,7 +11,7 @@ from firebase_admin import firestore
 
 locale.setlocale(locale.LC_TIME, "es_CO.utf8")
 
-cred = credentials.Certificate(os.getenv("FIREBASE_SERVICE_ACCOUNT_PATH"))
+cred = credentials.Certificate(app.config["FIREBASE_SERVICE_ACCOUNT_PATH"])
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()

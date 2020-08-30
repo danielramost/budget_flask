@@ -1,15 +1,11 @@
-import csv
 import os
-import sys
-import utils
 
-from flask import Flask, make_response, redirect, render_template, request, send_from_directory, url_for
+from budget import app
+from budget import utils
+from budget.models import *
+from flask import make_response, redirect, render_template, request, send_from_directory, url_for
 from io import StringIO
-from markupsafe import escape
-from models import *
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = '/tmp'
 
 users=[]
 categories=[]
