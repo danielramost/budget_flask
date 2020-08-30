@@ -1,11 +1,15 @@
 import csv
-from flask import Flask, make_response, redirect, render_template, request, url_for
+import os
+import sys
+import utils
+
+from flask import Flask, make_response, redirect, render_template, request, send_from_directory, url_for
 from io import StringIO
 from markupsafe import escape
-
 from models import *
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = '/tmp'
 
 users=[]
 categories=[]
@@ -54,7 +58,7 @@ def get_data_from_request(request):
     return {
         'date': request.form.get('date'),
         'user': request.form.get('user'),
-        'value': request.form.get('value'),
+        'value': int(request.form.get('value')),
         'group': group,
         'category': category,
         'comment': request.form.get('comment'),
@@ -63,15 +67,9 @@ def get_data_from_request(request):
 @app.route('/download')
 def download():
     expenses = Expense.get_expenses_for_download()
-
-    si = StringIO()
-    cw = csv.writer(si)
-    cw.writerows(expenses)
-
-    output = make_response(si.getvalue())
-    output.headers["Content-Disposition"] = "attachment; filename=gastos.csv"
-    output.headers["Content-type"] = "text/csv"
-    return output
+    file_name = 'gastos.xlsx'
+    utils.excel_from_matrix(os.path.join(app.config['UPLOAD_FOLDER'], file_name), expenses)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], file_name, as_attachment=True, mimetype='application/octet-stream', cache_timeout=0)
 
 @app.route('/delete_all', methods=['GET','POST'])
 def delete_all():

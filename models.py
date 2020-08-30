@@ -88,6 +88,8 @@ class Expense():
                 parsed_date = datetime.strptime(raw_expense['date'], '%Y-%m-%d')
                 day_name = parsed_date.strftime('%A')
                 raw_expense['day_name'] = day_name
+                ## Date formatting:
+                raw_expense['date'] = parsed_date.strftime('%d/%m/%Y')
 
             printable_expense = [raw_expense[field['field']] if field['field'] in raw_expense else '' for field in fields]
             expense_id = doc.id
