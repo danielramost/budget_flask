@@ -7,7 +7,7 @@ def excel_from_matrix(file_name, data):
     worksheet = workbook.add_worksheet()
 
     date_format = workbook.add_format()
-    date_format.set_num_format('dd/mm/yyyy')
+    date_format.set_num_format('d-mmm-yy')
 
     for row in range(len(data)):
         for col in range(len(data[row])):

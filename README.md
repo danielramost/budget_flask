@@ -52,10 +52,8 @@ python run.py
 
 1. mejorar la seguridad. Esto requiere usar un secret_key y ese campo oculto para enviar forms por post. Agregar otras cosas que ameriten.
 1. cambiar tabla por otro tipo de agrupador que sea responsive u ocultar campos de la tabla cuando se haga chiquita
-1. mirar si se puede limitar el ancho del form en la vista de desktop
 1. revisar todo el layout en general para que trabaje responsive
 1. cambiar la lógica para entrar directo a crear. La función secundaria es la de consulta y descarga.
-1. validar datos al guardar. Que algunos sean obligatorios y el formato.
 1. función de eliminación
 
 ### Otra iteración
