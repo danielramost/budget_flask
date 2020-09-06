@@ -16,6 +16,20 @@ I used a bare-metal server configured according to this great guide: [https://yo
 
 ## Setup
 
+### Spanish locale
+
+On Ubuntu Server, add the es_CO locale:
+
+```bash
+locale -a # Check the locale currently supported
+sudo locale-gen es_CO.utf8 # Add a new locale
+sudo update-locale
+```
+
+### Config variables
+
+Clone the repository and change the file `budget/config.py` with the right values.
+
 ### Python packages
 
 On a virtual environment:
