@@ -108,7 +108,6 @@ class Expense():
 
         fields = [
             'date',
-            'day_name',
             'user',
             'value',
             'group',
@@ -121,8 +120,6 @@ class Expense():
 
             if 'date' in raw_expense:
                 parsed_date = datetime.strptime(raw_expense['date'], '%Y-%m-%d')
-                day_name = parsed_date.strftime('%A')
-                raw_expense['day_name'] = day_name
                 ## Date formatting:
                 raw_expense['date'] = parsed_date
             printable_expense = [raw_expense[field] if field in raw_expense else '' for field in fields]
