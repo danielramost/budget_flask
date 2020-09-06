@@ -28,7 +28,7 @@ sudo update-locale
 
 ### Config variables
 
-Clone the repository and change the file `budget/config.py` with the right values.
+Clone the repository and change the file `config.py` with the right values.
 
 ### Python packages
 
