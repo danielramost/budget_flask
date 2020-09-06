@@ -14,6 +14,17 @@ All my data is stored in Firestore. The `config.py` script should be used to spe
 
 I used a bare-metal server configured according to this great guide: [https://youtu.be/goToXTC96Co](https://youtu.be/goToXTC96Co)
 
+## Setup
+
+### Python packages
+
+On a virtual environment:
+
+```bash
+pip install wheel
+pip install -r requirements.txt
+```
+
 ### Running the app
 
 ```bash
