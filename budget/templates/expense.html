@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group">
                     <label for="value">Valor</label>
-                    {% if expense %}
+                    {% if expense and expense.value %}
                         <input type="number" id="value" name="value" value="{{ expense.value }}" step="1" required class="form-control">
                     {% else %}
                         <input type="number" id="value" name="value" required class="form-control">
@@ -37,16 +37,31 @@
                 </div>
                 <div class="form-group">
                     <label for="category">Categoría</label>
-                    {% if expense.id != None %}
-                        <input id="category" name="category" list="categories" value="{{ expense.group + ' ==> ' + expense.category }}" autocomplete="off" required class="form-control">
-                    {% else %}
-                        <input id="category" name="category" list="categories" autocomplete="off" required class="form-control">
-                    {% endif %}
-                    <datalist id="categories">
-                        {% for category in categories %}
-                            <option value="{{ category.group + ' ==> ' + category.category }}">
-                        {% endfor %}
-                    </datalist>
+                    <div class="row">
+                        <div class="col-10">
+                            {% if expense.id != None %}
+                                <input id="category" name="category" list="categories" value="{{ expense.group + ' ==> ' + expense.category }}" autocomplete="off" required class="form-control">
+                            {% else %}
+                                <input id="category" name="category" list="categories" autocomplete="off" required class="form-control">
+                            {% endif %}
+                            <datalist id="categories">
+                                {% for category in categories %}
+                                    <option value="{{ category.group + ' ==> ' + category.category }}">
+                                {% endfor %}
+                            </datalist>
+                        </div>
+                        <div class="col-2">
+                            <button id="clear_category" type="button" class="btn btn-danger btn-sm">X</button>
+                            <script>
+                                window.addEventListener('load', () => {
+                                    const button = document.querySelector('#clear_category');
+                                    button.addEventListener('click', () => {
+                                        document.querySelector('#category').value = "";
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="comment">Observaciones</label>
